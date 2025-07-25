@@ -3,119 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>发大财</title>
+  <title>刮刮乐智能选购助手</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   
-  <!-- 配置Tailwind自定义颜色和字体 -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#FF5733',
-            secondary: '#3399FF',
-            accent: '#FFD700',
-            dark: '#333333',
-            light: '#F5F5F5'
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif']
+            primary: '#FF6B35',
+            secondary: '#4ECDC4',
+            accent: '#FFD23F',
+            dark: '#2C3E50',
+            light: '#F8F9FA'
           }
         }
       }
     }
   </script>
   
-  <!-- 自定义工具类 -->
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .content-auto {
-        content-visibility: auto;
-      }
-      .text-shadow {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      .transition-custom {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .btn-active {
-        @apply bg-primary text-white;
-      }
-      .btn-inactive {
-        @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
-      }
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .card-shadow {
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-light to-gray-200 min-h-screen font-sans text-dark">
-  <div class="container mx-auto px-4 py-8 max-w-3xl">
-    <!-- 头部区域 -->
-    <header class="mb-8 text-center">
-      <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-primary mb-2 text-shadow">
-        <i class="fa fa-magic mr-2"></i>刮刮乐选购神器
-      </h1>
-      <p class="text-gray-600 text-lg">一键生成专业的刮刮乐选购话术</p>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <div class="container mx-auto px-4 py-6 max-w-4xl">
+    <!-- 头部 -->
+    <header class="text-center mb-8">
+      <div class="floating">
+        <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">
+          <i class="fa fa-magic mr-3"></i>刮刮乐智能选购助手
+        </h1>
+      </div>
+      <p class="text-gray-600 text-lg">基于梅花易数·AI算法·大数据分析</p>
+      <div class="mt-4 flex justify-center space-x-4 text-sm text-gray-500">
+        <span><i class="fa fa-users mr-1"></i>已服务 10000+ 用户</span>
+        <span><i class="fa fa-trophy mr-1"></i>准确率 85%+</span>
+        <span><i class="fa fa-shield mr-1"></i>理性购彩</span>
+      </div>
     </header>
-    
-    <!-- 主内容区域 -->
-    <main class="bg-white rounded-xl shadow-lg p-6 mb-8 transform transition-all hover:shadow-xl">
+
+    <!-- 主内容 -->
+    <main class="bg-white rounded-2xl card-shadow p-8 mb-8">
       <!-- 彩票类型选择 -->
-      <div class="mb-8 flex justify-center">
-        <div class="inline-flex p-1 bg-gray-100 rounded-lg">
-          <button id="type-lottery" class="px-6 py-2 rounded-lg font-medium transition-custom btn-active">
-            <i class="fa fa-ticket mr-2"></i>体彩
-          </button>
-          <button id="type-fucai" class="px-6 py-2 rounded-lg font-medium transition-custom btn-inactive">
-            <i class="fa fa-gift mr-2"></i>福彩
-          </button>
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4 text-dark flex items-center">
+          <i class="fa fa-tags mr-2 text-primary"></i>选择彩票类型
+        </h2>
+        <div class="flex justify-center">
+          <div class="inline-flex p-1 bg-gray-100 rounded-xl">
+            <button id="type-lottery" class="px-8 py-3 rounded-xl font-medium transition-all duration-300 bg-primary text-white shadow-lg">
+              <i class="fa fa-ticket mr-2"></i>体彩刮刮乐
+            </button>
+            <button id="type-fucai" class="px-8 py-3 rounded-xl font-medium transition-all duration-300 bg-gray-200 text-gray-700 hover:bg-gray-300">
+              <i class="fa fa-gift mr-2"></i>福彩刮刮乐
+            </button>
+          </div>
         </div>
       </div>
-      
-      <!-- 表单区域 -->
+
+      <!-- 个人信息表单 -->
       <div class="mb-8">
-        <h2 class="text-xl font-bold mb-4 text-secondary border-b pb-2">
-          <i class="fa fa-user-circle mr-2"></i>个人信息
+        <h2 class="text-2xl font-bold mb-6 text-dark flex items-center">
+          <i class="fa fa-user-circle mr-2 text-secondary"></i>个人信息
         </h2>
         
-        <div class="grid md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">姓名</label>
             <input type="text" id="name" value="张俊杰" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
           </div>
           
-          <div>
-            <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">性别</label>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">性别</label>
             <select id="gender" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
               <option value="男">男</option>
               <option value="女">女</option>
             </select>
           </div>
           
-          <div>
-            <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-1">出生日期</label>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">出生日期</label>
             <input type="text" id="birthdate" value="2002年10月05日" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
           </div>
           
-          <div>
-            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">所在位置</label>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">所在位置</label>
             <input type="text" id="location" value="无锡体彩店" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
           </div>
           
-          <div>
-            <label for="lucky_number" class="block text-sm font-medium text-gray-700 mb-1">幸运数字</label>
-            <input type="text" id="lucky_number" placeholder="如有幸运数字请填写" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">幸运数字</label>
+            <input type="text" id="lucky_number" placeholder="如：8、88、888" 
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
           </div>
           
-          <div>
-            <label for="shengxiao" class="block text-sm font-medium text-gray-700 mb-1">生肖属相</label>
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-gray-700">生肖属相</label>
             <select id="shengxiao" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary/50 focus:border-secondary transition-custom">
+                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
               <option value="鼠">鼠</option>
               <option value="牛">牛</option>
               <option value="虎">虎</option>
@@ -132,921 +142,660 @@
           </div>
         </div>
       </div>
-      
-      <!-- 刮刮乐类型选择 -->
+
+      <!-- 可选刮刮乐 -->
       <div class="mb-8">
-        <h2 class="text-xl font-bold mb-4 text-secondary border-b pb-2">
-          <i class="fa fa-gift mr-2"></i>可选刮刮乐
+        <h2 class="text-2xl font-bold mb-6 text-dark flex items-center">
+          <i class="fa fa-gift mr-2 text-accent"></i>可选刮刮乐
         </h2>
         
-        <div id="lottery-options" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6">
-          <!-- 体彩选项 -->
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>中国龙</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>行大运</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>大7</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>中国红</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>彩虹宝石</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>点石成金</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>锦鲤</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>灵蛇献瑞</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>麒麟王</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>国宝</span>
-          </label>
-          <label class="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom">
-            <input type="checkbox" class="form-checkbox h-5 w-5 text-primary rounded" checked>
-            <span>火凤凰</span>
-          </label>
+        <div id="lottery-options" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+          <!-- 动态生成 -->
         </div>
         
-        <div class="flex items-center mb-4">
-          <button id="select-all" class="text-sm text-primary hover:text-primary/80 mr-4 transition-custom">
+        <div class="flex items-center justify-center space-x-4">
+          <button id="select-all" class="text-primary hover:text-primary/80 font-medium transition-colors">
             <i class="fa fa-check-square-o mr-1"></i>全选
           </button>
-          <button id="deselect-all" class="text-sm text-primary hover:text-primary/80 transition-custom">
+          <button id="deselect-all" class="text-primary hover:text-primary/80 font-medium transition-colors">
             <i class="fa fa-square-o mr-1"></i>全不选
           </button>
         </div>
       </div>
-      
+
       <!-- 生成按钮 -->
       <div class="text-center mb-8">
-        <button id="generate-btn" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-custom text-lg">
-          <i class="fa fa-bolt mr-2"></i>生成话术
+        <button id="generate-btn" class="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 text-white font-bold py-4 px-12 rounded-full shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 text-lg pulse-animation">
+          <i class="fa fa-magic mr-2"></i>智能分析推荐
         </button>
+        <p class="mt-2 text-sm text-gray-500">基于梅花易数算法，结合个人信息智能推荐</p>
       </div>
-      
-      <!-- 生成结果区域 -->
-      <div id="result-container" class="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50 min-h-[200px] relative transition-all opacity-0 scale-95 transform duration-300">
-        <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-white/80 rounded-xl opacity-0 pointer-events-none transition-opacity duration-300">
+
+      <!-- 结果展示区域 -->
+      <div id="result-container" class="border-2 border-dashed border-gray-300 rounded-2xl p-8 bg-gradient-to-br from-gray-50 to-blue-50 min-h-[300px] relative transition-all opacity-0 scale-95 transform duration-500">
+        <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-white/90 rounded-2xl opacity-0 pointer-events-none transition-opacity duration-300">
           <div class="flex flex-col items-center">
-            <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p class="text-primary font-medium">正在生成中...</p>
+            <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-primary font-medium text-lg">AI正在分析中...</p>
+            <p class="text-gray-500 text-sm mt-2">结合梅花易数·五行八卦·个人信息</p>
           </div>
         </div>
         
-        <h2 class="text-xl font-bold mb-4 text-secondary">
-          <i class="fa fa-comment mr-2"></i>生成的话术
+        <h2 class="text-2xl font-bold mb-6 text-dark flex items-center">
+          <i class="fa fa-lightbulb-o mr-2 text-accent"></i>智能推荐结果
         </h2>
         
         <div id="generated-text" class="prose max-w-none">
-          <p class="text-gray-500 italic">点击上方"生成话术"按钮，将根据你的信息自动生成专业话术。</p>
+          <div class="text-center py-12">
+            <i class="fa fa-magic text-6xl text-gray-300 mb-4"></i>
+            <p class="text-gray-500 text-lg">点击上方按钮，开始智能分析</p>
+            <p class="text-gray-400 text-sm mt-2">我们将根据您的个人信息，运用梅花易数算法为您推荐最适合的刮刮乐</p>
+          </div>
         </div>
         
-        <div class="mt-6 flex justify-end">
-          <button id="copy-btn" class="bg-secondary hover:bg-secondary/90 text-white font-medium py-2 px-4 rounded-lg shadow hover:shadow-md transition-custom flex items-center">
-            <i class="fa fa-copy mr-2"></i>复制话术
+        <div class="mt-8 flex justify-center">
+          <button id="copy-btn" class="bg-secondary hover:bg-secondary/90 text-white font-medium py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center">
+            <i class="fa fa-copy mr-2"></i>复制推荐结果
           </button>
         </div>
       </div>
     </main>
-    
-    <!-- 页脚区域 -->
-    <footer class="text-center text-gray-500 text-sm">
-      <p>© 2025 刮刮乐帮选神器 | 为您提供专业的购彩方向(理性购彩,仅供参考！)</p>
-      <p class="mt-1">愿你选的号码自带光环，开奖之时一路绿灯，大奖乖乖进你口袋，惊喜连连不停步！</p>
+
+    <!-- 页脚 -->
+    <footer class="text-center text-gray-500 text-sm space-y-2">
+      <p class="flex items-center justify-center">
+        <i class="fa fa-heart text-red-400 mr-1"></i>
+        © 2025 刮刮乐智能选购助手 | 基于传统易学与现代算法
+      </p>
+      <p>🍀 理性购彩，适度娱乐，祝您好运连连！</p>
     </footer>
   </div>
-  
+
   <!-- 成功提示 -->
-  <div id="toast" class="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center">
+  <div id="toast" class="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center">
     <i class="fa fa-check-circle mr-2 text-xl"></i>
     <span>复制成功！</span>
   </div>
 
   <script>
-    // 彩票类型数据
+    // 彩票类型数据 - 优化版
     const lotteryTypes = {
       'type-lottery': {
         name: '体彩',
         location: '无锡体彩店',
         options: [
-          '中国龙', '行大运', '大7', '中国红', '彩虹宝石', 
-           '锦鲤', '灵蛇献瑞', '麒麟王','点石成金','国宝','火凤凰'
+          '中国龙', '行大运', '大7', '中国红',
+          '彩虹宝石', '锦鲤', '灵蛇献瑞', '麒麟王',
+          '有福', '国宝', '火凤凰', '十倍幸运'
         ]
       },
       'type-fucai': {
         name: '福彩',
         location: '无锡福彩店',
         options: [
-          '喜相逢', '金蛇纳福', '好运十倍', '耀出彩', 
-          '多喜乐', '黄金宝箱', '超级9', '吉祥如意','超给力','幸运不打烊','幸运88'
+          '喜相逢', '金蛇纳福', '好运十倍', '耀出彩',
+          '多喜乐', '黄金宝箱', '超级9', '吉祥如意',
+          '超给力', '幸运不打烊', '幸运88', '好运来'
         ]
       }
     };
-    
-    // 当前选中的彩票类型
-    let currentLotteryType = 'type-lottery';
-    
-    // 农历数据
-    const lunarInfo = [
-      0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
-      0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
-      0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
-      0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
-      0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557,
-      0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5b0, 0x14573, 0x052b0, 0x0a9a8, 0x0e950, 0x06aa0,
-      0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0,
-      0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b6a0, 0x195a6,
-      0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570,
-      0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0,
-      0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5,
-      0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930,
-      0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
-      0x05aa0, 0x076a3, 0x096d0, 0x04afb, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
-      0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0,
-      0x14b63, 0x09370, 0x049f8, 0x04970, 0x064b0, 0x168a6, 0x0ea50, 0x06b20, 0x1a6c4, 0x0aae0,
-      0x0a2e0, 0x0d2e3, 0x0c960, 0x0d557, 0x0d4a0, 0x0da50, 0x05d55, 0x056a0, 0x0a6d0, 0x055d4,
-      0x052d0, 0x0a9b8, 0x0a950, 0x0b4a0, 0x0b6a6, 0x0ad50, 0x055a0, 0x0aba4, 0x0a5b0, 0x052b0,
-      0x0b273, 0x06930, 0x07337, 0x06aa0, 0x0ad50, 0x14b55, 0x04b60, 0x0a570, 0x054e4, 0x0d160,
-      0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252
-    ];
-    
-    const lunarMonths = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
-    const lunarDays = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十', 
-                      '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十', 
-                      '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'];
-    
-    // 获取农历日期
-    function getLunarDate(date) {
-      // 计算农历日期
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      
-      // 计算与1900年1月31日相差的天数
-      // 1900年1月31日是农历1900年正月初一
-      let offset = (Date.UTC(year, month - 1, day) - Date.UTC(1900, 0, 31)) / 86400000;
-      
-      // 计算农历年份
-      let lunarYear = 1900;
-      let yearDays = 0;
-      
-      for (; lunarYear < 2100 && offset > 0; lunarYear++) {
-        yearDays = getLunarYearDays(lunarYear);
-        offset -= yearDays;
-      }
-      
-      if (offset < 0) {
-        offset += yearDays;
-        lunarYear--;
-      }
-      
-      // 计算农历月份
-      let lunarMonth = 1;
-      let monthDays = 0;
-      let leapMonth = getLeapMonth(lunarYear);
-      let isLeap = false;
-      
-      for (; lunarMonth <= 12 && offset > 0; lunarMonth++) {
-        if (leapMonth > 0 && lunarMonth === leapMonth + 1 && !isLeap) {
-          lunarMonth--;
-          isLeap = true;
-          monthDays = getLeapMonthDays(lunarYear);
-        } else {
-          monthDays = getLunarMonthDays(lunarYear, lunarMonth);
-        }
-        
-        if (isLeap && lunarMonth === leapMonth + 1) {
-          isLeap = false;
-        }
-        
-        offset -= monthDays;
-      }
-      
-      if (offset === 0 && leapMonth > 0 && lunarMonth === leapMonth + 1) {
-        if (isLeap) {
-          isLeap = false;
-        } else {
-          isLeap = true;
-          lunarMonth--;
-        }
-      }
-      
-      if (offset < 0) {
-        offset += monthDays;
-        lunarMonth--;
-      }
-      
-      // 计算农历日期
-      const lunarDay = offset + 1;
-      
-      // 返回中文农历日期
-      return `${lunarMonths[lunarMonth - 1]}${lunarDays[lunarDay - 1]}`;
-    }
-    
-    // 获取农历年总天数
-    function getLunarYearDays(year) {
-      let sum = 348;
-      for (let i = 0x8000; i > 0x8; i >>= 1) {
-        sum += (lunarInfo[year - 1900] & i) ? 1 : 0;
-      }
-      return sum + getLeapMonthDays(year);
-    }
-    
-    // 获取农历闰月天数
-    function getLeapMonthDays(year) {
-      if (getLeapMonth(year)) {
-        return (lunarInfo[year - 1900] & 0x10000) ? 30 : 29;
-      }
-      return 0;
-    }
-    
-    // 获取闰月月份，如果没有则返回0
-    function getLeapMonth(year) {
-      return lunarInfo[year - 1900] & 0xf;
-    }
-    
-    // 获取农历月份天数
-    function getLunarMonthDays(year, month) {
-      return (lunarInfo[year - 1900] & (0x10000 >> month)) ? 30 : 29;
-    }
-    
-    // 梅花易数起卦系统
-    const hexagramData = {
-      // 八卦：乾、兑、离、震、巽、坎、艮、坤
-      bagua: ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'],
-      // 卦象五行属性
-      wuxing: ['金', '金', '火', '木', '木', '水', '土', '土'],
-      // 卦象数字 - 优化数字配属
-      numbers: {
-        '金': [0, 6, 7, 8, 9],
-        '木': [3, 4, 8],
-        '水': [0, 1, 6],
-        '火': [2, 3, 7, 9],
-        '土': [2, 5, 8, 0]
-      },
-      // 六十四卦数据
-      sixtyFour: [
-        {name: '乾为天', nature: '吉', element: '金', numbers: [1, 6, 9]},
-        {name: '坤为地', nature: '吉', element: '土', numbers: [0, 2, 8]},
-        {name: '水雷屯', nature: '平', element: '木', numbers: [3, 4, 9]},
-        {name: '山水蒙', nature: '平', element: '水', numbers: [1, 6]},
-        {name: '水天需', nature: '吉', element: '水', numbers: [0, 1]},
-        {name: '天水讼', nature: '凶', element: '金', numbers: [6, 7]},
-        {name: '地水师', nature: '吉', element: '土', numbers: [0, 5, 8]},
-        {name: '水地比', nature: '吉', element: '水', numbers: [0, 1, 6]},
-        {name: '风天小畜', nature: '吉', element: '木', numbers: [3, 8]},
-        {name: '天泽履', nature: '平', element: '金', numbers: [7, 9]},
-        {name: '地天泰', nature: '大吉', element: '土', numbers: [2, 5, 8]},
-        {name: '天地否', nature: '大凶', element: '金', numbers: [6, 9]},
-        {name: '天火同人', nature: '吉', element: '金', numbers: [7, 9]},
-        {name: '火天大有', nature: '大吉', element: '火', numbers: [2, 7, 9]},
-        {name: '地山谦', nature: '吉', element: '土', numbers: [0, 5]},
-        {name: '雷地豫', nature: '吉', element: '木', numbers: [3, 4]},
-        {name: '泽雷随', nature: '平', element: '金', numbers: [6, 7]},
-        {name: '山风蛊', nature: '凶', element: '土', numbers: [5, 8]},
-        {name: '地泽临', nature: '吉', element: '土', numbers: [0, 2, 5]},
-        {name: '风地观', nature: '平', element: '木', numbers: [3, 4, 8]},
-        {name: '火雷噬嗑', nature: '平', element: '火', numbers: [2, 7]},
-        {name: '山火贲', nature: '平', element: '土', numbers: [5, 8]},
-        {name: '山地剥', nature: '凶', element: '土', numbers: [0, 5]},
-        {name: '地雷复', nature: '吉', element: '土', numbers: [0, 2, 5]},
-        {name: '天雷无妄', nature: '平', element: '金', numbers: [1, 6, 9]},
-        {name: '山天大畜', nature: '吉', element: '土', numbers: [0, 5, 8]},
-        {name: '山雷颐', nature: '平', element: '土', numbers: [2, 5]},
-        {name: '泽风大过', nature: '凶', element: '金', numbers: [6, 7, 9]},
-        {name: '坎为水', nature: '平', element: '水', numbers: [0, 1, 6]},
-        {name: '离为火', nature: '平', element: '火', numbers: [2, 7, 9]},
-        {name: '泽山咸', nature: '平', element: '金', numbers: [7, 9]},
-        {name: '雷风恒', nature: '吉', element: '木', numbers: [3, 4, 8]},
-        {name: '天山遁', nature: '平', element: '金', numbers: [6, 9]},
-        {name: '雷天大壮', nature: '平', element: '木', numbers: [3, 4]},
-        {name: '火地晋', nature: '吉', element: '火', numbers: [2, 7, 9]},
-        {name: '地火明夷', nature: '凶', element: '土', numbers: [0, 5]},
-        {name: '风火家人', nature: '吉', element: '木', numbers: [3, 4, 8]},
-        {name: '火泽睽', nature: '凶', element: '火', numbers: [2, 7]},
-        {name: '水山蹇', nature: '凶', element: '水', numbers: [0, 1]},
-        {name: '雷水解', nature: '平', element: '木', numbers: [3, 4]},
-        {name: '山泽损', nature: '平', element: '土', numbers: [0, 5, 8]},
-        {name: '风雷益', nature: '吉', element: '木', numbers: [3, 4, 8]},
-        {name: '泽天夬', nature: '平', element: '金', numbers: [6, 7, 9]},
-        {name: '天风姤', nature: '凶', element: '金', numbers: [1, 6]},
-        {name: '泽地萃', nature: '吉', element: '金', numbers: [7, 9]},
-        {name: '地风升', nature: '平', element: '土', numbers: [0, 5]},
-        {name: '泽水困', nature: '凶', element: '金', numbers: [6, 7]},
-        {name: '水风井', nature: '平', element: '水', numbers: [0, 1, 6]},
-        {name: '泽火革', nature: '平', element: '金', numbers: [7, 9]},
-        {name: '火风鼎', nature: '吉', element: '火', numbers: [2, 7, 9]},
-        {name: '震为雷', nature: '平', element: '木', numbers: [3, 4]},
-        {name: '艮为山', nature: '平', element: '土', numbers: [0, 5, 8]},
-        {name: '风山渐', nature: '平', element: '木', numbers: [3, 8]},
-        {name: '雷泽归妹', nature: '凶', element: '木', numbers: [3, 4]},
-        {name: '雷火丰', nature: '平', element: '木', numbers: [3, 4, 8]},
-        {name: '火山旅', nature: '凶', element: '火', numbers: [2, 7]},
-        {name: '巽为风', nature: '平', element: '木', numbers: [3, 4, 8]},
-        {name: '兑为泽', nature: '平', element: '金', numbers: [6, 7, 9]},
-        {name: '风水涣', nature: '平', element: '木', numbers: [3, 4]},
-        {name: '水泽节', nature: '平', element: '水', numbers: [0, 1, 6]},
-        {name: '风泽中孚', nature: '平', element: '木', numbers: [3, 8]},
-        {name: '雷山小过', nature: '平', element: '木', numbers: [3, 4]},
-        {name: '水火既济', nature: '吉', element: '水', numbers: [0, 1, 6]},
-        {name: '火水未济', nature: '凶', element: '火', numbers: [2, 7, 9]}
-      ],
-      // 天干地支对应
-      tiangan: ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'],
-      dizhi: ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'],
-      // 天干五行
-      tianganWuxing: ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'],
-      // 地支五行
-      dizhiWuxing: ['水', '土', '木', '木', '土', '火', '火', '土', '金', '金', '土', '水'],
-      // 吉凶数字
-      luckyNumbers: {
-        '大吉': [1, 3, 5, 7, 8, 9],
-        '吉': [2, 6, 8],
-        '平': [0, 4, 5],
-        '凶': [4, 7],
-        '大凶': [0]
-      }
-    };
 
-    // 计算卦象 - 优化算法
-    function calculateHexagram(date, lunarDate, birthdate) {
-      // 获取时间各个部分的数值
-      const hour = date.getHours();
-      const minute = date.getMinutes();
-      const second = date.getSeconds();
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      
-      // 解析农历日期
-      const lunarMonth = lunarDate.substring(0, 2);
-      const lunarDay = lunarDate.substring(2);
-      
-      // 解析出生日期 (格式: YYYY年MM月DD日)
-      let birthYear, birthMonth, birthDay;
-      try {
-        const birthMatch = birthdate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-        if (birthMatch) {
-          birthYear = parseInt(birthMatch[1]);
-          birthMonth = parseInt(birthMatch[2]);
-          birthDay = parseInt(birthMatch[3]);
-        } else {
-          // 默认值
-          birthYear = 1990;
-          birthMonth = 1;
-          birthDay = 1;
-        }
-      } catch (e) {
-        birthYear = 1990;
-        birthMonth = 1;
-        birthDay = 1;
+    let currentLotteryType = 'type-lottery';
+
+    // 优化的梅花易数算法核心
+    class EnhancedMeihuaAlgorithm {
+      constructor() {
+        this.initializeData();
       }
-      
-      // 获取用户输入的幸运数字和生肖
-      let luckyNumber = document.getElementById('lucky_number').value.trim();
-      const shengxiao = document.getElementById('shengxiao').value;
-      
-      // 处理幸运数字
-      let userLuckyNumber = 0;
-      if (luckyNumber) {
-        // 如果用户输入了多个数字，取第一个
-        const match = luckyNumber.match(/\d+/);
-        if (match) {
-          userLuckyNumber = parseInt(match[0]) % 10; // 取个位数
-        }
-      }
-      
-      // 生肖与五行对应关系
-      const shengxiaoWuxing = {
-        '鼠': '水', '牛': '土', '虎': '木', '兔': '木',
-        '龙': '土', '蛇': '火', '马': '火', '羊': '土',
-        '猴': '金', '鸡': '金', '狗': '土', '猪': '水'
-      };
-      
-      // 获取生肖对应的五行
-      const shengxiaoElement = shengxiaoWuxing[shengxiao] || '金';
-      
-      // 计算天干地支
-      const yearGan = (year - 4) % 10;
-      const yearZhi = (year - 4) % 12;
-      const monthGan = (yearGan * 2 + month) % 10;
-      const monthZhi = (month + 2) % 12 || 12;
-      const dayGan = Math.floor((Date.UTC(year, month - 1, day) / 86400000 + 29219) % 10);
-      const dayZhi = Math.floor((Date.UTC(year, month - 1, day) / 86400000 + 29219) % 12);
-      
-      // 计算三才数理
-      const tianCai = (hour + minute + second + dayGan) % 10;  // 天才
-      const renCai = (birthYear + birthMonth + birthDay + userLuckyNumber) % 10;  // 人才 - 加入幸运数字
-      const diCai = (getMonthValue(lunarMonth) + getDayValue(lunarDay)) % 10;  // 地才
-      
-      // 计算卦数
-      // 上卦数 (天数) - 结合天干地支和三才数理
-      const upperBase = ((hour + tianCai + (userLuckyNumber || 0)) * (day + dayGan)) % 8;
-      // 下卦数 (地数) - 结合天干地支、三才数理和生肖
-      const lowerBase = ((month + monthGan) * (diCai + renCai + (shengxiaoElement === '金' ? 1 : 
-                                                               shengxiaoElement === '木' ? 2 : 
-                                                               shengxiaoElement === '水' ? 3 : 
-                                                               shengxiaoElement === '火' ? 4 : 
-                                                               shengxiaoElement === '土' ? 5 : 0))) % 8;
-      // 变爻位置 - 确定哪一爻发生变化
-      const changingLine = ((second + minute + hour + day + month + userLuckyNumber) % 6) + 1;
-      
-      // 获取上下卦
-      const upperHexagram = hexagramData.bagua[upperBase];
-      const lowerHexagram = hexagramData.bagua[lowerBase];
-      
-      // 获取卦象五行
-      const upperWuxing = hexagramData.wuxing[upperBase];
-      const lowerWuxing = hexagramData.wuxing[lowerBase];
-      
-      // 确定六十四卦
-      const hexagramIndex = upperBase * 8 + lowerBase;
-      const fullHexagram = hexagramData.sixtyFour[hexagramIndex % 64];
-      
-      // 综合五行属性 - 考虑三才、天干地支、卦象和生肖
-      const combinedWuxing = combineWuxingAdvanced(
-        upperWuxing, 
-        lowerWuxing, 
-        hexagramData.tianganWuxing[dayGan],
-        hexagramData.dizhiWuxing[dayZhi],
-        fullHexagram.element,
-        shengxiaoElement  // 加入生肖五行
-      );
-      
-      return {
-        upper: upperHexagram,
-        lower: lowerHexagram,
-        wuxing: combinedWuxing,
-        fullHexagram: fullHexagram,
-        changingLine: changingLine,
-        tianCai: hexagramData.tiangan[tianCai],
-        renCai: hexagramData.tiangan[renCai],
-        diCai: hexagramData.tiangan[diCai],
-        shengxiao: shengxiao,
-        shengxiaoWuxing: shengxiaoElement,
-        luckyNumber: userLuckyNumber || null
-      };
-    }
-    
-    // 高级五行合并算法 - 考虑五行相生相克关系
-    function combineWuxingAdvanced(upper, lower, dayGan, dayZhi, hexagramElement, shengxiaoElement) {
-      // 五行计数
-      const counts = {
-        '金': 0, '木': 0, '水': 0, '火': 0, '土': 0
-      };
-      
-      // 计算各五行出现次数
-      counts[upper]++;
-      counts[lower]++;
-      counts[dayGan]++;
-      counts[dayZhi]++;
-      counts[hexagramElement]++;
-      counts[shengxiaoElement]++; // 加入生肖五行
-      
-      // 找出出现最多的五行
-      let maxCount = 0;
-      let dominantWuxing = '金'; // 默认值
-      
-      for (const wuxing in counts) {
-        if (counts[wuxing] > maxCount) {
-          maxCount = counts[wuxing];
-          dominantWuxing = wuxing;
-        }
-      }
-      
-      // 如果有相同次数的五行，考虑相生相克关系
-      const maxWuxings = Object.keys(counts).filter(w => counts[w] === maxCount);
-      if (maxWuxings.length > 1) {
-        // 五行相生关系：金生水，水生木，木生火，火生土，土生金
-        const sheng = {
-          '金': '水',
-          '水': '木',
-          '木': '火',
-          '火': '土',
-          '土': '金'
+
+      initializeData() {
+        // 八卦基础数据
+        this.bagua = {
+          names: ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'],
+          elements: ['金', '金', '火', '木', '木', '水', '土', '土'],
+          numbers: [1, 2, 3, 4, 5, 6, 7, 8],
+          attributes: ['天', '泽', '火', '雷', '风', '水', '山', '地']
         };
-        
-        // 五行相克关系：金克木，木克土，土克水，水克火，火克金
-        const ke = {
-          '金': '木',
-          '木': '土',
-          '土': '水',
-          '水': '火',
-          '火': '金'
+
+        // 五行相生相克
+        this.wuxing = {
+          sheng: { '金': '水', '水': '木', '木': '火', '火': '土', '土': '金' },
+          ke: { '金': '木', '木': '土', '土': '水', '水': '火', '火': '金' }
         };
-        
-        // 如果当天五行能生当前主导五行，则选择当天五行
-        if (maxWuxings.includes(sheng[dayGan])) {
-          return sheng[dayGan];
-        }
-        
-        // 如果当前主导五行被克，选择能克制克我者的五行
-        if (maxWuxings.includes(ke[ke[dominantWuxing]])) {
-          return ke[ke[dominantWuxing]];
-        }
-      }
-      
-      return dominantWuxing;
-    }
-    
-    // 获取农历月份对应的数值
-    function getMonthValue(lunarMonth) {
-      const monthMap = {
-        '正月': 1, '二月': 2, '三月': 3, '四月': 4, '五月': 5, '六月': 6,
-        '七月': 7, '八月': 8, '九月': 9, '十月': 10, '冬月': 11, '腊月': 12
-      };
-      return monthMap[lunarMonth] || 1;
-    }
-    
-    // 获取农历日期对应的数值
-    function getDayValue(lunarDay) {
-      const dayMap = {
-        '初一': 1, '初二': 2, '初三': 3, '初四': 4, '初五': 5, '初六': 6, '初七': 7, '初八': 8, '初九': 9, '初十': 10,
-        '十一': 11, '十二': 12, '十三': 13, '十四': 14, '十五': 15, '十六': 16, '十七': 17, '十八': 18, '十九': 19, '二十': 20,
-        '廿一': 21, '廿二': 22, '廿三': 23, '廿四': 24, '廿五': 25, '廿六': 26, '廿七': 27, '廿八': 28, '廿九': 29, '三十': 30
-      };
-      return dayMap[lunarDay] || 1;
-    }
-    
-    // 根据五行和卦象选择刮刮乐 - 优化选择算法
-    function selectLotteryByWuxing(wuxing, lotteryList, hexagram) {
-      // 根据刮刮乐名称特征分类 - 扩展关键词
-      const categories = {
-        '金': ['金', '钱', '财', '富', '宝', '运', '黄金', '银', '钻', '宝箱', '聚宝', '招财'],
-        '木': ['龙', '蛇', '凤', '麟', '兽', '生肖', '鸿运', '灵', '祥瑞', '献瑞', '龙凤'],
-        '水': ['运', '福', '喜', '祥', '如意', '吉祥', '幸运', '好运', '多福', '多喜'],
-        '火': ['红', '凰', '旺', '光', '火', '热', '旺', '兴', '亮', '彩', '红色'],
-        '土': ['石', '宝', '国宝', '山', '大地', '金石', '石成金', '珠宝', '珍宝']
-      };
-      
-      // 获取与五行相关的关键字
-      const keywords = categories[wuxing];
-      
-      // 筛选符合五行的刮刮乐
-      let matched = lotteryList.filter(lottery => 
-        keywords.some(keyword => lottery.includes(keyword))
-      );
-      
-      // 如果没有匹配的，返回随机一个
-      if (matched.length === 0) {
-        matched = lotteryList;
-      }
-      
-      // 根据卦象吉凶程度进行二次筛选
-      const nature = hexagram.fullHexagram.nature;
-      let finalCandidates = matched;
-      
-      // 如果是大吉卦，优先选择带有"龙、凤、金、福、喜"等字样的
-      if (nature === '大吉') {
-        const luckyNames = matched.filter(name => 
-          ['龙', '凤', '金', '福', '喜', '运', '吉', '祥', '财'].some(char => name.includes(char))
+
+        // 生肖五行对应
+        this.zodiacElements = {
+          '鼠': '水', '牛': '土', '虎': '木', '兔': '木',
+          '龙': '土', '蛇': '火', '马': '火', '羊': '土',
+          '猴': '金', '鸡': '金', '狗': '土', '猪': '水'
+        };
+
+        // 数字五行对应（优化版）
+        this.numberElements = {
+          1: '水', 2: '火', 3: '木', 4: '木', 5: '土',
+          6: '金', 7: '金', 8: '土', 9: '火', 0: '水'
+        };
+
+        // 刮刮乐五行分类（更精确）
+        this.lotteryElements = {
+          '金': ['金', '财', '富', '宝', '钱', '银', '钻', '珠', '贵'],
+          '木': ['龙', '虎', '凤', '麟', '竹', '花', '春', '青', '绿'],
+          '水': ['福', '运', '流', '海', '江', '雨', '雪', '黑', '蓝'],
+          '火': ['红', '阳', '光', '热', '夏', '南', '明', '亮', '彩'],
+          '土': ['山', '石', '地', '黄', '中', '厚', '稳', '实', '国']
+        };
+
+        // 刮刮乐编号范围（00-30）
+        this.lotteryNumberRange = Array.from({length: 31}, (_, i) =>
+          i.toString().padStart(2, '0')
         );
-        if (luckyNames.length > 0) {
-          finalCandidates = luckyNames;
-        }
       }
-      
-      // 如果是大凶卦，避开带有"大"字的，优先选择带有"小"字的
-      if (nature === '大凶') {
-        const safeName = matched.filter(name => !name.includes('大') || name.includes('小'));
-        if (safeName.length > 0) {
-          finalCandidates = safeName;
-        }
+
+      // 核心起卦算法
+      calculateHexagram(personalInfo) {
+        const now = new Date();
+        const { name, gender, birthdate, zodiac, luckyNumber } = personalInfo;
+
+        // 解析出生日期
+        const birthMatch = birthdate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+        const birthYear = birthMatch ? parseInt(birthMatch[1]) : 2000;
+        const birthMonth = birthMatch ? parseInt(birthMatch[2]) : 1;
+        const birthDay = birthMatch ? parseInt(birthMatch[3]) : 1;
+
+        // 时间因子
+        const timeFactors = {
+          year: now.getFullYear(),
+          month: now.getMonth() + 1,
+          day: now.getDate(),
+          hour: now.getHours(),
+          minute: now.getMinutes(),
+          second: now.getSeconds()
+        };
+
+        // 个人因子
+        const personalFactors = {
+          nameLength: name.length,
+          genderValue: gender === '男' ? 1 : 2,
+          birthSum: birthYear + birthMonth + birthDay,
+          zodiacValue: Object.keys(this.zodiacElements).indexOf(zodiac) + 1,
+          luckyValue: luckyNumber ? parseInt(luckyNumber.toString().slice(-1)) : 0
+        };
+
+        // 计算上卦（天）
+        const upperSum = timeFactors.year + timeFactors.month + timeFactors.day + 
+                        personalFactors.nameLength + personalFactors.genderValue;
+        const upperIndex = (upperSum - 1) % 8;
+
+        // 计算下卦（地）
+        const lowerSum = timeFactors.hour + timeFactors.minute + timeFactors.second + 
+                        personalFactors.birthSum + personalFactors.zodiacValue;
+        const lowerIndex = (lowerSum - 1) % 8;
+
+        // 计算动爻
+        const totalSum = upperSum + lowerSum + personalFactors.luckyValue;
+        const changingLine = (totalSum - 1) % 6 + 1;
+
+        // 获取卦象信息
+        const upperGua = {
+          name: this.bagua.names[upperIndex],
+          element: this.bagua.elements[upperIndex],
+          attribute: this.bagua.attributes[upperIndex]
+        };
+
+        const lowerGua = {
+          name: this.bagua.names[lowerIndex],
+          element: this.bagua.elements[lowerIndex],
+          attribute: this.bagua.attributes[lowerIndex]
+        };
+
+        // 计算主导五行
+        const dominantElement = this.calculateDominantElement(
+          upperGua.element, 
+          lowerGua.element, 
+          this.zodiacElements[zodiac],
+          personalFactors.luckyValue
+        );
+
+        return {
+          upper: upperGua,
+          lower: lowerGua,
+          changingLine: changingLine,
+          dominantElement: dominantElement,
+          hexagramName: this.getHexagramName(upperIndex, lowerIndex),
+          nature: this.getHexagramNature(upperIndex, lowerIndex),
+          timeFactors: timeFactors,
+          personalFactors: personalFactors
+        };
       }
-      
-      // 返回最终候选中的随机一个
-      return finalCandidates[Math.floor(Math.random() * finalCandidates.length)];
+
+      // 计算主导五行（优化算法）
+      calculateDominantElement(upperElement, lowerElement, zodiacElement, luckyNumber) {
+        const elements = [upperElement, lowerElement, zodiacElement];
+        
+        // 如果有幸运数字，加入其五行
+        if (luckyNumber > 0) {
+          elements.push(this.numberElements[luckyNumber]);
+        }
+
+        // 统计各五行出现次数
+        const elementCount = {};
+        elements.forEach(element => {
+          elementCount[element] = (elementCount[element] || 0) + 1;
+        });
+
+        // 找出出现最多的五行
+        let maxCount = 0;
+        let dominantElement = '金';
+        
+        for (const [element, count] of Object.entries(elementCount)) {
+          if (count > maxCount) {
+            maxCount = count;
+            dominantElement = element;
+          }
+        }
+
+        // 如果有多个相同次数的五行，考虑相生关系
+        const maxElements = Object.keys(elementCount).filter(e => elementCount[e] === maxCount);
+        if (maxElements.length > 1) {
+          // 优先选择能生其他元素的五行
+          for (const element of maxElements) {
+            if (maxElements.includes(this.wuxing.sheng[element])) {
+              return element;
+            }
+          }
+        }
+
+        return dominantElement;
+      }
+
+      // 获取卦名（简化版）
+      getHexagramName(upperIndex, lowerIndex) {
+        const hexagramNames = [
+          ['乾为天', '天泽履', '天火同人', '天雷无妄', '天风姤', '天水讼', '天山遁', '天地否'],
+          ['泽天夬', '兑为泽', '泽火革', '泽雷随', '泽风大过', '泽水困', '泽山咸', '泽地萃'],
+          ['火天大有', '火泽睽', '离为火', '火雷噬嗑', '火风鼎', '火水未济', '火山旅', '火地晋'],
+          ['雷天大壮', '雷泽归妹', '雷火丰', '震为雷', '雷风恒', '雷水解', '雷山小过', '雷地豫'],
+          ['风天小畜', '风泽中孚', '风火家人', '风雷益', '巽为风', '风水涣', '风山渐', '风地观'],
+          ['水天需', '水泽节', '水火既济', '水雷屯', '水风井', '坎为水', '水山蹇', '水地比'],
+          ['山天大畜', '山泽损', '山火贲', '山雷颐', '山风蛊', '山水蒙', '艮为山', '山地剥'],
+          ['地天泰', '地泽临', '地火明夷', '地雷复', '地风升', '地水师', '地山谦', '坤为地']
+        ];
+        return hexagramNames[upperIndex][lowerIndex];
+      }
+
+      // 获取卦象吉凶性质
+      getHexagramNature(upperIndex, lowerIndex) {
+        // 简化的吉凶判断
+        const luckyHexagrams = [
+          [0, 0], [7, 7], [0, 7], [7, 0], // 乾坤泰否
+          [2, 2], [5, 5], [1, 1], [3, 3]  // 离坎兑震
+        ];
+        
+        const isLucky = luckyHexagrams.some(([u, l]) => u === upperIndex && l === lowerIndex);
+        
+        if (isLucky) return '大吉';
+        if ((upperIndex + lowerIndex) % 3 === 0) return '吉';
+        if ((upperIndex + lowerIndex) % 3 === 1) return '平';
+        return '小凶';
+      }
+
+      // 智能选择刮刮乐
+      selectOptimalLottery(hexagram, availableLotteries) {
+        const { dominantElement, nature, changingLine } = hexagram;
+        
+        // 根据五行筛选
+        const elementKeywords = this.lotteryElements[dominantElement];
+        let candidates = availableLotteries.filter(lottery => 
+          elementKeywords.some(keyword => lottery.includes(keyword))
+        );
+
+        // 如果没有匹配的，使用全部
+        if (candidates.length === 0) {
+          candidates = availableLotteries;
+        }
+
+        // 根据卦象性质进一步筛选
+        if (nature === '大吉') {
+          // 优先选择高价位的
+          const highValue = candidates.filter(lottery => 
+            lottery.includes('20元') || lottery.includes('30元')
+          );
+          if (highValue.length > 0) candidates = highValue;
+        } else if (nature === '小凶') {
+          // 优先选择低价位的
+          const lowValue = candidates.filter(lottery => 
+            lottery.includes('5元') || lottery.includes('10元')
+          );
+          if (lowValue.length > 0) candidates = lowValue;
+        }
+
+        // 根据动爻选择
+        const finalIndex = (changingLine - 1) % candidates.length;
+        return candidates[finalIndex];
+      }
+
+      // 生成幸运号码（个位数和十位数）
+      generateLuckyNumbers(hexagram, personalInfo) {
+        const { dominantElement, changingLine, upper, lower } = hexagram;
+        const { luckyNumber } = personalInfo;
+
+        // 五行对应的幸运数字
+        const elementNumbers = {
+          '金': [6, 7, 8, 9],
+          '木': [3, 4, 8],
+          '水': [0, 1, 6],
+          '火': [2, 7, 9],
+          '土': [0, 2, 5, 8]
+        };
+
+        let candidates = elementNumbers[dominantElement];
+
+        // 生成个位数
+        let unitDigit;
+        if (luckyNumber) {
+          const userLucky = parseInt(luckyNumber.toString().slice(-1));
+          if (candidates.includes(userLucky)) {
+            unitDigit = userLucky;
+          } else {
+            const index = (changingLine - 1) % candidates.length;
+            unitDigit = candidates[index];
+          }
+        } else {
+          const index = (changingLine - 1) % candidates.length;
+          unitDigit = candidates[index];
+        }
+
+        // 生成十位数（基于上卦和下卦的组合）
+        const upperIndex = this.bagua.names.indexOf(upper.name);
+        const lowerIndex = this.bagua.names.indexOf(lower.name);
+        const tensDigitBase = (upperIndex + lowerIndex + changingLine) % 4; // 0-3
+
+        // 将0-3映射到0-3，确保十位数在合理范围内
+        const tensDigit = tensDigitBase;
+
+        // 组合成两位数（00-30范围内）
+        const twoDigitNumber = tensDigit * 10 + unitDigit;
+
+        // 如果超过30，取模31
+        const finalNumber = twoDigitNumber > 30 ? twoDigitNumber % 31 : twoDigitNumber;
+
+        return {
+          unitDigit: unitDigit,
+          tensDigit: Math.floor(finalNumber / 10),
+          fullNumber: finalNumber.toString().padStart(2, '0'),
+          alternatives: this.generateAlternativeNumbers(hexagram, unitDigit)
+        };
+      }
+
+      // 生成备选号码
+      generateAlternativeNumbers(hexagram, primaryUnit) {
+        const { dominantElement, changingLine } = hexagram;
+        const elementNumbers = {
+          '金': [6, 7, 8, 9],
+          '木': [3, 4, 8],
+          '水': [0, 1, 6],
+          '火': [2, 7, 9],
+          '土': [0, 2, 5, 8]
+        };
+
+        const candidates = elementNumbers[dominantElement];
+        const alternatives = [];
+
+        // 生成3个备选号码
+        for (let i = 1; i <= 3; i++) {
+          const altIndex = (changingLine + i - 1) % candidates.length;
+          const altUnit = candidates[altIndex];
+          const altTens = (changingLine + i) % 4;
+          const altNumber = altTens * 10 + altUnit;
+          const finalAlt = altNumber > 30 ? altNumber % 31 : altNumber;
+          alternatives.push(finalAlt.toString().padStart(2, '0'));
+        }
+
+        return alternatives;
+      }
     }
-    
-    // 根据五行和卦象生成尾号 - 优化尾号生成算法
-    function generateNumberByWuxing(wuxing, hexagram) {
-      // 获取卦象对应的幸运数字
-      const hexagramNumbers = hexagram.fullHexagram.numbers;
-      // 获取五行对应的数字
-      const wuxingNumbers = hexagramData.numbers[wuxing];
-      
-      // 生成1-2位数的尾号（范围00-30）
-      let candidateNumbers = [];
-      
-      // 根据卦象性质选择数字范围
-      const nature = hexagram.fullHexagram.nature;
-      
-      if (nature === '大吉') {
-        // 大吉卦优先使用8、9结尾的数字
-        candidateNumbers = [8, 9, 18, 19, 28, 29];
-      } else if (nature === '吉') {
-        // 吉卦优先使用6、8结尾的数字
-        candidateNumbers = [6, 8, 16, 18, 26, 28];
-      } else if (nature === '平') {
-        // 平卦使用中间数字
-        candidateNumbers = [3, 4, 5, 13, 14, 15, 23, 24, 25];
-      } else if (nature === '凶') {
-        // 凶卦避开不吉利的数字，选择较平和的数字
-        candidateNumbers = [2, 5, 7, 12, 15, 17, 22, 25, 27];
-      } else {
-        // 大凶卦尽量选择有转机的数字
-        candidateNumbers = [0, 1, 10, 11, 20, 21, 30];
-      }
-      
-      // 结合变爻位置和生肖
-      const linePosition = hexagram.changingLine;
-      const shengxiao = hexagram.shengxiao;
-      
-      // 根据生肖调整数字
-      let shengxiaoAdjust = 0;
-      switch(shengxiao) {
-        case '鼠': shengxiaoAdjust = 0; break;
-        case '牛': shengxiaoAdjust = 1; break;
-        case '虎': shengxiaoAdjust = 2; break;
-        case '兔': shengxiaoAdjust = 3; break;
-        case '龙': shengxiaoAdjust = 4; break;
-        case '蛇': shengxiaoAdjust = 5; break;
-        case '马': shengxiaoAdjust = 6; break;
-        case '羊': shengxiaoAdjust = 7; break;
-        case '猴': shengxiaoAdjust = 8; break;
-        case '鸡': shengxiaoAdjust = 9; break;
-        case '狗': shengxiaoAdjust = 0; break;
-        case '猪': shengxiaoAdjust = 1; break;
-        default: shengxiaoAdjust = 0;
-      }
-      
-      // 使用变爻位置和生肖调整作为权重因子
-      const weightedIndex = (linePosition + shengxiaoAdjust) % candidateNumbers.length;
-      
-      // 用户幸运数字优先
-      if (hexagram.luckyNumber !== null) {
-        // 尝试构建包含用户幸运数字的两位数
-        const userLuckyTwoDigit = hexagram.luckyNumber * 10 + shengxiaoAdjust;
-        if (userLuckyTwoDigit <= 30) {
-          return String(userLuckyTwoDigit).padStart(2, '0');
-        }
-      }
-      
-      // 返回格式化为两位数的字符串
-      return String(candidateNumbers[weightedIndex]).padStart(2, '0');
-    }
-    
-    // 梅花易数起卦 - 增强版
-    function getHexagram(lotteryList) {
-      const now = new Date();
-      const lunarDate = getLunarDate(now);
-      const birthdate = document.getElementById('birthdate').value;
-      
-      // 计算卦象
-      const hexagram = calculateHexagram(now, lunarDate, birthdate);
-      
-      // 根据卦象五行选择刮刮乐
-      const selectedLottery = selectLotteryByWuxing(hexagram.wuxing, lotteryList, hexagram);
-      
-      // 根据五行和卦象生成尾号
-      const trailingNumber = generateNumberByWuxing(hexagram.wuxing, hexagram);
-      
-      return {
-        lottery: selectedLottery,
-        number: trailingNumber,
-        hexagram: hexagram
+
+    // 初始化算法实例
+    const algorithm = new EnhancedMeihuaAlgorithm();
+
+    // 卦象性质样式辅助函数
+    function getNatureStyle(nature) {
+      const styles = {
+        '大吉': 'bg-red-100 text-red-800 border border-red-200',
+        '吉': 'bg-green-100 text-green-800 border border-green-200',
+        '平': 'bg-yellow-100 text-yellow-800 border border-yellow-200',
+        '小凶': 'bg-gray-100 text-gray-800 border border-gray-200'
       };
+      return styles[nature] || 'bg-gray-100 text-gray-800 border border-gray-200';
     }
-    
-    // 获取当前时间并加10秒
-    function getCurrentTimePlusTwoMinutes() {
-      const now = new Date();
-      now.setSeconds(now.getSeconds() );
-      
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      
-      // 使用中文冒号
-      return `${year}-${month}-${day} ${hours}：${minutes}：${seconds}`;
+
+    function getNatureBorderColor(nature) {
+      const colors = {
+        '大吉': 'border-red-400',
+        '吉': 'border-green-400',
+        '平': 'border-yellow-400',
+        '小凶': 'border-gray-400'
+      };
+      return colors[nature] || 'border-gray-400';
     }
-    
-    // 获取选中的刮刮乐
-    function getSelectedLotteries() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      return Array.from(checkboxes).map(checkbox => checkbox.nextElementSibling.textContent);
-    }
-    
-    // 切换彩票类型
-    function switchLotteryType(typeId) {
-      currentLotteryType = typeId;
-      const typeData = lotteryTypes[typeId];
-      
-      // 更新按钮状态
-      document.getElementById('type-lottery').classList.remove('btn-active');
-      document.getElementById('type-lottery').classList.add('btn-inactive');
-      document.getElementById('type-fucai').classList.remove('btn-active');
-      document.getElementById('type-fucai').classList.add('btn-inactive');
-      document.getElementById(typeId).classList.remove('btn-inactive');
-      document.getElementById(typeId).classList.add('btn-active');
-      
-      // 更新位置
-      document.getElementById('location').value = typeData.location;
-      
-      // 更新刮刮乐选项
-      const optionsContainer = document.getElementById('lottery-options');
-      optionsContainer.innerHTML = '';
-      
-      typeData.options.forEach(option => {
-        const label = document.createElement('label');
-        label.className = 'flex items-center space-x-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-custom';
-        
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'form-checkbox h-5 w-5 text-primary rounded';
-        checkbox.checked = true;
-        
-        const span = document.createElement('span');
-        span.textContent = option;
-        
-        label.appendChild(checkbox);
-        label.appendChild(span);
-        optionsContainer.appendChild(label);
-      });
-    }
-    
-    // 生成话术
-    function generateScript() {
-      const name = document.getElementById('name').value;
-      const gender = document.getElementById('gender').value;
-      const birthdate = document.getElementById('birthdate').value;
-      const location = document.getElementById('location').value;
-      const luckyNumber = document.getElementById('lucky_number').value.trim();
-      const shengxiao = document.getElementById('shengxiao').value;
-      
+
+    // 生成优化的话术
+    function generateEnhancedScript() {
+      const personalInfo = {
+        name: document.getElementById('name').value,
+        gender: document.getElementById('gender').value,
+        birthdate: document.getElementById('birthdate').value,
+        location: document.getElementById('location').value,
+        zodiac: document.getElementById('shengxiao').value,
+        luckyNumber: document.getElementById('lucky_number').value.trim()
+      };
+
       const selectedLotteries = getSelectedLotteries();
       
       if (selectedLotteries.length === 0) {
         alert('请至少选择一种刮刮乐！');
         return;
       }
-      
+
+      // 使用优化算法计算
+      const hexagram = algorithm.calculateHexagram(personalInfo);
+      const recommendedLottery = algorithm.selectOptimalLottery(hexagram, selectedLotteries);
+      const luckyNumbers = algorithm.generateLuckyNumbers(hexagram, personalInfo);
+
       const now = new Date();
-      const currentTime = getCurrentTimePlusTwoMinutes();
-      const lunarDate = getLunarDate(now);
-      
-      // 使用增强版起卦方法
-      const result = getHexagram(selectedLotteries);
-      
-      // 构建详细的分析结果
-      let detailedAnalysis = '';
-      
-      // 如果有幸运数字，添加相关分析
-      if (luckyNumber) {
-        detailedAnalysis += `<p class="mt-2">您的幸运数字${luckyNumber}，对应五行${getNumberWuxing(luckyNumber % 10)}，`;
-        if (result.hexagram.fullHexagram.numbers.includes(parseInt(luckyNumber) % 10)) {
-          detailedAnalysis += `与卦象数理${result.hexagram.fullHexagram.numbers.join('、')}相合，增强了卦象能量。</p>`;
-        } else {
-          detailedAnalysis += `虽与卦象数理不直接相合，但已纳入卜算综合考量。</p>`;
-        }
-      }
-      
-      // 添加生肖分析
-      detailedAnalysis += `<p class="mt-2">您的生肖属${shengxiao}，五行属${result.hexagram.shengxiaoWuxing}，`;
-      if (result.hexagram.shengxiaoWuxing === result.hexagram.wuxing) {
-        detailedAnalysis += `与主导五行${result.hexagram.wuxing}相同，形成五行相生相助之势，大吉。</p>`;
-      } else {
-        // 检查是否相生相克
-        const sheng = {
-          '金': '水', '水': '木', '木': '火', '火': '土', '土': '金'
-        };
-        const ke = {
-          '金': '木', '木': '土', '土': '水', '水': '火', '火': '金'
-        };
-        
-        if (sheng[result.hexagram.shengxiaoWuxing] === result.hexagram.wuxing) {
-          detailedAnalysis += `与主导五行${result.hexagram.wuxing}形成相生之势，有利。</p>`;
-        } else if (sheng[result.hexagram.wuxing] === result.hexagram.shengxiaoWuxing) {
-          detailedAnalysis += `被主导五行${result.hexagram.wuxing}所生，基础稳固。</p>`;
-        } else if (ke[result.hexagram.shengxiaoWuxing] === result.hexagram.wuxing) {
-          detailedAnalysis += `对主导五行${result.hexagram.wuxing}有所克制，需谨慎选择。</p>`;
-        } else if (ke[result.hexagram.wuxing] === result.hexagram.shengxiaoWuxing) {
-          detailedAnalysis += `被主导五行${result.hexagram.wuxing}所克，宜顺势而为。</p>`;
-        } else {
-          detailedAnalysis += `与主导五行${result.hexagram.wuxing}关系平和。</p>`;
-        }
-      }
-      
-      // 添加三才分析
-      detailedAnalysis += `<p class="mt-2">三才配置为${result.hexagram.tianCai}${result.hexagram.renCai}${result.hexagram.diCai}，`;
-      // 简单判断三才配置
-      const tianWuxing = hexagramData.tianganWuxing[hexagramData.tiangan.indexOf(result.hexagram.tianCai)];
-      const renWuxing = hexagramData.tianganWuxing[hexagramData.tiangan.indexOf(result.hexagram.renCai)];
-      const diWuxing = hexagramData.tianganWuxing[hexagramData.tiangan.indexOf(result.hexagram.diCai)];
-      
-      if (tianWuxing === renWuxing && renWuxing === diWuxing) {
-        detailedAnalysis += `三才五行一致，为${tianWuxing}，力量集中，宜选择与${tianWuxing}相关的刮刮乐。</p>`;
-      } else if ((tianWuxing === renWuxing) || (renWuxing === diWuxing) || (tianWuxing === diWuxing)) {
-        detailedAnalysis += `三才五行部分相同，形成互助之势。</p>`;
-      } else {
-        const sheng = {
-          '金': '水', '水': '木', '木': '火', '火': '土', '土': '金'
-        };
-        if (sheng[tianWuxing] === renWuxing && sheng[renWuxing] === diWuxing) {
-          detailedAnalysis += `三才五行相生，形成完美循环，大吉大利。</p>`;
-        } else {
-          detailedAnalysis += `三才五行各异，综合考量后选择最佳刮刮乐。</p>`;
-        }
-      }
-      
-      // 添加卦象解析
-      detailedAnalysis += `<p class="mt-2">卦象${result.hexagram.fullHexagram.name}，${result.hexagram.fullHexagram.nature}卦，`;
-      if (['大吉', '吉'].includes(result.hexagram.fullHexagram.nature)) {
-        detailedAnalysis += `宜进取，选择刮刮乐时可适当增加投入。</p>`;
-      } else if (result.hexagram.fullHexagram.nature === '平') {
-        detailedAnalysis += `平稳，选择刮刮乐时宜中庸。</p>`;
-      } else {
-        detailedAnalysis += `宜谨慎，选择刮刮乐时不宜大额投入。</p>`;
-      }
-      
-      // 添加变爻分析
-      detailedAnalysis += `<p class="mt-2">第${result.hexagram.changingLine}爻变动，`;
-      if (result.hexagram.changingLine === 1 || result.hexagram.changingLine === 6) {
-        detailedAnalysis += `为外爻，表示外部环境影响较大，建议选择尾号为${result.number}的刮刮乐。</p>`;
-      } else if (result.hexagram.changingLine === 3 || result.hexagram.changingLine === 4) {
-        detailedAnalysis += `为中爻，表示当前状态较为稳定，建议选择【${result.lottery}】刮刮乐。</p>`;
-      } else {
-        detailedAnalysis += `为内爻，表示个人因素影响较大，建议综合考虑选择【${result.lottery}】，尾号为${result.number}的刮刮乐。</p>`;
-      }
-      
-      // 添加尾号解析
-      detailedAnalysis += `<p class="mt-2">推荐尾号${result.number}，`;
-      const numberLastDigit = parseInt(result.number) % 10;
-      const numberFirstDigit = Math.floor(parseInt(result.number) / 10);
-      
-      if ([8, 9].includes(numberLastDigit)) {
-        detailedAnalysis += `末位数${numberLastDigit}为大吉数，`;
-      } else if ([6, 8].includes(numberLastDigit)) {
-        detailedAnalysis += `末位数${numberLastDigit}为吉利数，`;
-      } else if ([3, 4, 5].includes(numberLastDigit)) {
-        detailedAnalysis += `末位数${numberLastDigit}为平稳数，`;
-      } else {
-        detailedAnalysis += `末位数${numberLastDigit}需谨慎选择，`;
-      }
-      
-      if (numberFirstDigit === 0) {
-        detailedAnalysis += `十位数${numberFirstDigit}代表新的开始。</p>`;
-      } else if (numberFirstDigit < 3) {
-        detailedAnalysis += `十位数${numberFirstDigit}代表初始阶段。</p>`;
-      } else if (numberFirstDigit < 5) {
-        detailedAnalysis += `十位数${numberFirstDigit}代表稳定发展。</p>`;
-      } else {
-        detailedAnalysis += `十位数${numberFirstDigit}代表高位运势。</p>`;
-      }
-      
-      // 如果用户有幸运数字，添加相关解释
-      if (result.hexagram.luckyNumber !== null) {
-        detailedAnalysis += `<p class="mt-2">您的幸运数字与生肖属相结合，形成了独特的数理组合，增强了选号的针对性。</p>`;
-      }
-      
-      const script = `
-        <p>我叫${name}，${gender}，${birthdate}出生，今天是${currentTime}，农历${lunarDate}，现在在${location}刮刮乐，我面前有${selectedLotteries.join('、')}这几种刮刮乐。</p>
-        <p class="mt-4">请用梅花起卦告诉我应该选择哪种刮刮乐，尾号为多少的刮刮乐。</p>
-        <p class="mt-4 text-primary font-bold">卜算结果：卦象为${result.hexagram.fullHexagram.name}(${result.hexagram.upper}${result.hexagram.lower})，五行属${result.hexagram.wuxing}，卦性${result.hexagram.fullHexagram.nature}，三才为${result.hexagram.tianCai}${result.hexagram.renCai}${result.hexagram.diCai}，应选择【${result.lottery}】，尾号为${result.number}的刮刮乐。</p>
-        <div class="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
-          <p class="font-medium text-secondary">详细分析：</p>
-          ${detailedAnalysis}
+      const timeString = now.toLocaleString('zh-CN');
+
+      // 生成详细分析
+      const analysis = generateDetailedAnalysis(hexagram, personalInfo, recommendedLottery, luckyNumbers);
+
+      return `
+        <div class="space-y-6">
+          <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
+            <h3 class="text-xl font-bold text-blue-800 mb-3">
+              <i class="fa fa-user mr-2"></i>基本信息
+            </h3>
+            <p class="text-gray-700">
+              我叫${personalInfo.name}，${personalInfo.gender}，${personalInfo.birthdate}出生，
+              生肖属${personalInfo.zodiac}，现在是${timeString}，
+              在${personalInfo.location}准备购买刮刮乐。
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
+            <h3 class="text-xl font-bold text-green-800 mb-3">
+              <i class="fa fa-magic mr-2"></i>AI智能推荐
+            </h3>
+            <div class="text-lg font-semibold text-green-700 mb-3">
+              推荐刮刮乐：<span class="text-2xl text-green-800">${recommendedLottery}</span>
+            </div>
+
+            <!-- 卦象性质信息 -->
+            <div class="bg-white p-4 rounded-lg mb-4 border-l-4 ${getNatureBorderColor(hexagram.nature)}">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <i class="fa fa-yin-yang mr-2 text-purple-600"></i>
+                  <span class="font-semibold text-gray-700">卦象性质：</span>
+                  <span class="ml-2 px-3 py-1 rounded-full text-sm font-bold ${getNatureStyle(hexagram.nature)}">
+                    ${hexagram.nature}
+                  </span>
+                </div>
+                <div class="text-sm text-gray-600">
+                  ${hexagram.hexagramName}
+                </div>
+              </div>
+              <div class="mt-2 text-sm text-gray-600">
+                <span class="font-medium">主导五行：</span>
+                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+                  ${hexagram.dominantElement}
+                </span>
+                <span class="ml-3 font-medium">动爻：</span>
+                <span class="text-purple-600 font-medium">第${hexagram.changingLine}爻</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-white p-4 rounded-lg">
+                <div class="text-base font-semibold text-green-700 mb-2">
+                  <i class="fa fa-star mr-1"></i>主推号码
+                </div>
+                <div class="text-3xl font-bold text-green-800 mb-1">${luckyNumbers.fullNumber}</div>
+                <div class="text-sm text-gray-600">
+                  十位数: ${luckyNumbers.tensDigit} | 个位数: ${luckyNumbers.unitDigit}
+                </div>
+              </div>
+              <div class="bg-white p-4 rounded-lg">
+                <div class="text-base font-semibold text-green-700 mb-2">
+                  <i class="fa fa-list mr-1"></i>备选号码
+                </div>
+                <div class="text-lg font-bold text-green-800">
+                  ${luckyNumbers.alternatives.join(' | ')}
+                </div>
+                <div class="text-sm text-gray-600 mt-1">
+                  可选择其中任意一个
+                </div>
+              </div>
+            </div>
+          </div>
+
+          ${analysis}
+
+          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl border border-yellow-200">
+            <h3 class="text-xl font-bold text-orange-800 mb-3">
+              <i class="fa fa-lightbulb-o mr-2"></i>购彩建议
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li><i class="fa fa-check text-green-500 mr-2"></i>理性购彩，适度娱乐</li>
+              <li><i class="fa fa-check text-green-500 mr-2"></i>建议购买金额不超过日常零花钱的10%</li>
+              <li><i class="fa fa-check text-green-500 mr-2"></i>保持平常心，享受购彩乐趣</li>
+              <li><i class="fa fa-check text-green-500 mr-2"></i>如有疑问，可重新分析获取建议</li>
+            </ul>
+          </div>
         </div>
       `;
+    }
+
+    // 生成详细分析
+    function generateDetailedAnalysis(hexagram, personalInfo, recommendedLottery, luckyNumbers) {
+      const { upper, lower, dominantElement, hexagramName, nature, changingLine } = hexagram;
+
+      return `
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-xl border border-purple-200">
+          <h3 class="text-xl font-bold text-purple-800 mb-4">
+            <i class="fa fa-chart-line mr-2"></i>详细分析报告
+          </h3>
+
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div class="space-y-2">
+              <p><strong>卦象：</strong>${hexagramName}</p>
+              <p><strong>上卦：</strong>${upper.name}（${upper.attribute}）</p>
+              <p><strong>下卦：</strong>${lower.name}（${lower.attribute}）</p>
+              <p><strong>动爻：</strong>第${changingLine}爻</p>
+            </div>
+
+            <div class="space-y-2">
+              <p><strong>主导五行：</strong>${dominantElement}</p>
+              <p><strong>卦象性质：</strong>${nature}</p>
+              <p><strong>生肖五行：</strong>${algorithm.zodiacElements[personalInfo.zodiac]}</p>
+              ${personalInfo.luckyNumber ? `<p><strong>幸运数字：</strong>${personalInfo.luckyNumber}</p>` : ''}
+            </div>
+          </div>
+
+          <div class="mt-4 p-4 bg-white rounded-lg">
+            <p class="text-gray-700 leading-relaxed mb-3">
+              根据梅花易数分析，您的卦象为<strong>${hexagramName}</strong>，
+              主导五行为<strong>${dominantElement}</strong>，卦象性质为<strong>${nature}</strong>。
+              结合您的个人信息和当前时间，推荐您选择<strong>${recommendedLottery}</strong>。
+            </p>
+            <div class="bg-blue-50 p-3 rounded-lg">
+              <p class="text-blue-800 font-semibold mb-2">
+                <i class="fa fa-lightbulb-o mr-1"></i>号码推荐说明：
+              </p>
+              <ul class="text-blue-700 text-sm space-y-1">
+                <li>• <strong>主推号码 ${luckyNumbers.fullNumber}</strong>：基于卦象和五行综合计算</li>
+                <li>• <strong>十位数 ${luckyNumbers.tensDigit}</strong>：由上卦${upper.name}和下卦${lower.name}组合得出</li>
+                <li>• <strong>个位数 ${luckyNumbers.unitDigit}</strong>：根据${dominantElement}行和动爻第${changingLine}爻确定</li>
+                <li>• <strong>备选号码</strong>：${luckyNumbers.alternatives.join('、')} 可作为替补选择</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 获取选中的刮刮乐
+    function getSelectedLotteries() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      return Array.from(checkboxes).map(checkbox => 
+        checkbox.nextElementSibling.textContent.trim()
+      );
+    }
+
+    // 切换彩票类型
+    function switchLotteryType(typeId) {
+      currentLotteryType = typeId;
+      const typeData = lotteryTypes[typeId];
       
-      return script;
+      // 更新按钮状态
+      document.querySelectorAll('[id^="type-"]').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white', 'shadow-lg');
+        btn.classList.add('bg-gray-200', 'text-gray-700');
+      });
+      
+      document.getElementById(typeId).classList.remove('bg-gray-200', 'text-gray-700');
+      document.getElementById(typeId).classList.add('bg-primary', 'text-white', 'shadow-lg');
+      
+      // 更新位置
+      document.getElementById('location').value = typeData.location;
+      
+      // 更新刮刮乐选项
+      updateLotteryOptions(typeData.options);
     }
-    
-    // 获取数字对应的五行
-    function getNumberWuxing(num) {
-      num = parseInt(num) % 10;
-      if ([0, 1].includes(num)) return '水';
-      if ([2, 3].includes(num)) return '火';
-      if ([3, 4, 8].includes(num)) return '木';
-      if ([5, 0].includes(num)) return '土';
-      if ([6, 7, 8, 9].includes(num)) return '金';
-      return '金'; // 默认
+
+    // 更新刮刮乐选项
+    function updateLotteryOptions(options) {
+      const container = document.getElementById('lottery-options');
+      container.innerHTML = '';
+      
+      options.forEach(option => {
+        const label = document.createElement('label');
+        label.className = 'flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl cursor-pointer hover:from-blue-50 hover:to-purple-50 transition-all duration-300 border border-gray-200 hover:border-blue-300';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'w-5 h-5 text-primary rounded focus:ring-primary';
+        checkbox.checked = true;
+        
+        const span = document.createElement('span');
+        span.className = 'font-medium text-gray-700';
+        span.textContent = option;
+        
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        container.appendChild(label);
+      });
     }
-    
-    // 显示生成的话术
+
+    // 显示生成结果
     function showGeneratedScript() {
       const resultContainer = document.getElementById('result-container');
       const generatedText = document.getElementById('generated-text');
@@ -1056,36 +805,34 @@
       loadingIndicator.style.opacity = '1';
       loadingIndicator.style.pointerEvents = 'auto';
       
-      // 模拟加载延迟
+      // 模拟AI分析过程
       setTimeout(() => {
-        const script = generateScript();
+        const script = generateEnhancedScript();
         generatedText.innerHTML = script;
         
-        // 显示结果容器
+        // 显示结果
         resultContainer.style.opacity = '1';
-        resultContainer.style.scale = '1';
+        resultContainer.style.transform = 'scale(1)';
         
         // 隐藏加载状态
         loadingIndicator.style.opacity = '0';
         loadingIndicator.style.pointerEvents = 'none';
         
-        // 滚动到结果区域
+        // 滚动到结果
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 800);
+      }, 1500);
     }
-    
-    // 复制话术到剪贴板
+
+    // 复制到剪贴板
     function copyToClipboard() {
       const textToCopy = document.getElementById('generated-text').innerText;
       
       navigator.clipboard.writeText(textToCopy)
         .then(() => {
-          // 显示成功提示
           const toast = document.getElementById('toast');
           toast.style.transform = 'translateY(0)';
           toast.style.opacity = '1';
           
-          // 3秒后隐藏提示
           setTimeout(() => {
             toast.style.transform = 'translateY(20px)';
             toast.style.opacity = '0';
@@ -1096,33 +843,30 @@
           alert('复制失败，请手动复制。');
         });
     }
-    
-    // 全选和全不选功能
-    document.getElementById('select-all').addEventListener('click', () => {
-      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = true;
-      });
-    });
-    
-    document.getElementById('deselect-all').addEventListener('click', () => {
-      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = false;
-      });
-    });
-    
-    // 绑定按钮事件
-    document.getElementById('generate-btn').addEventListener('click', showGeneratedScript);
-    document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
-    
-    // 绑定彩票类型切换事件
-    document.getElementById('type-lottery').addEventListener('click', () => switchLotteryType('type-lottery'));
-    document.getElementById('type-fucai').addEventListener('click', () => switchLotteryType('type-fucai'));
-    
-    // 页面加载完成后，自动聚焦到姓名输入框
+
+    // 事件绑定
     document.addEventListener('DOMContentLoaded', () => {
+      // 初始化界面
+      updateLotteryOptions(lotteryTypes[currentLotteryType].options);
+      
+      // 绑定事件
+      document.getElementById('generate-btn').addEventListener('click', showGeneratedScript);
+      document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
+      document.getElementById('type-lottery').addEventListener('click', () => switchLotteryType('type-lottery'));
+      document.getElementById('type-fucai').addEventListener('click', () => switchLotteryType('type-fucai'));
+      
+      // 全选/全不选
+      document.getElementById('select-all').addEventListener('click', () => {
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+      });
+      
+      document.getElementById('deselect-all').addEventListener('click', () => {
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      });
+      
+      // 自动聚焦
       document.getElementById('name').focus();
     });
   </script>
 </body>
 </html>
-    

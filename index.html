@@ -88,11 +88,13 @@
           <i class="fa fa-user-circle mr-2 text-secondary"></i>个人信息
         </h2>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-gray-700">姓名</label>
-            <input type="text" id="name" value="张俊杰" 
-                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+            <label class="block text-sm font-semibold text-gray-700">姓名（必填）</label>
+            <input type="text" id="name" value="" required
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                   placeholder="请输入您的姓名">
+            <div id="name-error" class="text-red-500 text-sm hidden">请输入姓名</div>
           </div>
           
           <div class="space-y-2">
@@ -105,15 +107,17 @@
           </div>
           
           <div class="space-y-2">
-            <label class="block text-sm font-semibold text-gray-700">出生日期</label>
-            <input type="text" id="birthdate" value="2002年10月05日" 
+            <label class="block text-sm font-semibold text-gray-700">出生日期（必填）</label>
+            <input type="date" id="birthdate" value="2002-10-05" required
                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+            <div id="birthdate-error" class="text-red-500 text-sm hidden">请选择出生日期</div>
           </div>
           
           <div class="space-y-2">
             <label class="block text-sm font-semibold text-gray-700">所在位置</label>
             <input type="text" id="location" value="无锡体彩店" 
-                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                   placeholder="请输入所在位置">
           </div>
           
           <div class="space-y-2">
@@ -242,6 +246,46 @@
 
     let currentLotteryType = 'type-lottery';
 
+    // 生肖计算函数（优化版）
+    function calculateZodiac(birthDate) {
+      if (!birthDate) return '鼠';
+      
+      const date = new Date(birthDate);
+      const year = date.getFullYear();
+      
+      // 生肖顺序：鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪
+      const zodiacs = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+      
+      // 1900年是鼠年，以此为基准计算
+      const baseYear = 1900;
+      const zodiacIndex = (year - baseYear) % 12;
+      
+      // 处理负数情况
+      return zodiacs[zodiacIndex >= 0 ? zodiacIndex : zodiacIndex + 12];
+    }
+    
+    // 获取生肖对应的五行（优化版）
+    function getZodiacElement(zodiac) {
+      const zodiacElements = {
+        '鼠': '水', '牛': '土', '虎': '木', '兔': '木',
+        '龙': '土', '蛇': '火', '马': '火', '羊': '土',
+        '猴': '金', '鸡': '金', '狗': '土', '猪': '水'
+      };
+      return zodiacElements[zodiac] || '金';
+    }
+
+    // 格式化日期为中文格式
+    function formatDateToChinese(dateString) {
+      if (!dateString) return '';
+      
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      
+      return `${year}年${month}月${day}日`;
+    }
+
     // 优化的梅花易数算法核心
     class EnhancedMeihuaAlgorithm {
       constructor() {
@@ -291,48 +335,135 @@
         );
       }
 
-      // 核心起卦算法
+      // 增强的随机数生成器
+      generateRandomSeed(personalInfo) {
+        const now = new Date();
+        const { name, gender, birthdate, zodiac, luckyNumber } = personalInfo;
+        
+        // 解析出生日期 - 支持新的日期格式
+        let birthYear, birthMonth, birthDay;
+        if (birthdate.includes('-')) {
+          // 新格式：YYYY-MM-DD
+          const date = new Date(birthdate);
+          birthYear = date.getFullYear();
+          birthMonth = date.getMonth() + 1;
+          birthDay = date.getDate();
+        } else {
+          // 旧格式：YYYY年MM月DD日
+          const birthMatch = birthdate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+          birthYear = birthMatch ? parseInt(birthMatch[1]) : 2000;
+          birthMonth = birthMatch ? parseInt(birthMatch[2]) : 1;
+          birthDay = birthMatch ? parseInt(birthMatch[3]) : 1;
+        }
+
+        // 多重随机因子
+        const factors = [
+          now.getFullYear(),
+          now.getMonth() + 1,
+          now.getDate(),
+          now.getHours(),
+          now.getMinutes(),
+          now.getSeconds(),
+          now.getMilliseconds(),
+          name.length,
+          name.charCodeAt(0),
+          name.charCodeAt(name.length - 1),
+          gender === '男' ? 1 : 2,
+          birthYear,
+          birthMonth,
+          birthDay,
+          Object.keys(this.zodiacElements).indexOf(zodiac) + 1,
+          luckyNumber ? parseInt(luckyNumber.toString().slice(-1)) : 0,
+          Math.floor(Math.random() * 1000), // 额外随机因子
+          Date.now() % 1000 // 时间戳因子
+        ];
+
+        // 计算复合种子
+        let seed = 0;
+        factors.forEach((factor, index) => {
+          seed += factor * (index + 1) * Math.pow(2, index % 8);
+        });
+
+        return seed % 2147483647; // 保持在安全范围内
+      }
+
+      // 基于种子的伪随机数生成器
+      seededRandom(seed) {
+        const a = 1664525;
+        const c = 1013904223;
+        const m = Math.pow(2, 32);
+        
+        return function() {
+          seed = (a * seed + c) % m;
+          return seed / m;
+        };
+      }
+
+      // 核心起卦算法（增强版）
       calculateHexagram(personalInfo) {
         const now = new Date();
         const { name, gender, birthdate, zodiac, luckyNumber } = personalInfo;
 
-        // 解析出生日期
-        const birthMatch = birthdate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
-        const birthYear = birthMatch ? parseInt(birthMatch[1]) : 2000;
-        const birthMonth = birthMatch ? parseInt(birthMatch[2]) : 1;
-        const birthDay = birthMatch ? parseInt(birthMatch[3]) : 1;
+        // 解析出生日期 - 支持新的日期格式
+        let birthYear, birthMonth, birthDay;
+        if (birthdate.includes('-')) {
+          // 新格式：YYYY-MM-DD
+          const date = new Date(birthdate);
+          birthYear = date.getFullYear();
+          birthMonth = date.getMonth() + 1;
+          birthDay = date.getDate();
+        } else {
+          // 旧格式：YYYY年MM月DD日
+          const birthMatch = birthdate.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+          birthYear = birthMatch ? parseInt(birthMatch[1]) : 2000;
+          birthMonth = birthMatch ? parseInt(birthMatch[2]) : 1;
+          birthDay = birthMatch ? parseInt(birthMatch[3]) : 1;
+        }
 
-        // 时间因子
+        // 生成随机种子
+        const seed = this.generateRandomSeed(personalInfo);
+        const random = this.seededRandom(seed);
+
+        // 时间因子（增加更多变化）
         const timeFactors = {
           year: now.getFullYear(),
           month: now.getMonth() + 1,
           day: now.getDate(),
           hour: now.getHours(),
           minute: now.getMinutes(),
-          second: now.getSeconds()
+          second: now.getSeconds(),
+          millisecond: now.getMilliseconds(),
+          dayOfWeek: now.getDay(),
+          dayOfYear: Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24)
         };
 
-        // 个人因子
+        // 个人因子（增强版）
         const personalFactors = {
           nameLength: name.length,
+          nameSum: name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0),
           genderValue: gender === '男' ? 1 : 2,
           birthSum: birthYear + birthMonth + birthDay,
+          birthProduct: birthYear * birthMonth * birthDay,
           zodiacValue: Object.keys(this.zodiacElements).indexOf(zodiac) + 1,
-          luckyValue: luckyNumber ? parseInt(luckyNumber.toString().slice(-1)) : 0
+          luckyValue: luckyNumber ? parseInt(luckyNumber.toString().slice(-1)) : 0,
+          luckySum: luckyNumber ? luckyNumber.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0) : 0
         };
 
-        // 计算上卦（天）
+        // 计算上卦（天）- 增加随机性
         const upperSum = timeFactors.year + timeFactors.month + timeFactors.day + 
-                        personalFactors.nameLength + personalFactors.genderValue;
+                        personalFactors.nameLength + personalFactors.genderValue +
+                        Math.floor(random() * 100);
         const upperIndex = (upperSum - 1) % 8;
 
-        // 计算下卦（地）
+        // 计算下卦（地）- 增加随机性
         const lowerSum = timeFactors.hour + timeFactors.minute + timeFactors.second + 
-                        personalFactors.birthSum + personalFactors.zodiacValue;
+                        personalFactors.birthSum + personalFactors.zodiacValue +
+                        Math.floor(random() * 100);
         const lowerIndex = (lowerSum - 1) % 8;
 
-        // 计算动爻
-        const totalSum = upperSum + lowerSum + personalFactors.luckyValue;
+        // 计算动爻 - 增加随机性
+        const totalSum = upperSum + lowerSum + personalFactors.luckyValue +
+                        Math.floor(random() * 50);
         const changingLine = (totalSum - 1) % 6 + 1;
 
         // 获取卦象信息
@@ -348,12 +479,13 @@
           attribute: this.bagua.attributes[lowerIndex]
         };
 
-        // 计算主导五行
+        // 计算主导五行（增强版）
         const dominantElement = this.calculateDominantElement(
           upperGua.element, 
           lowerGua.element, 
           this.zodiacElements[zodiac],
-          personalFactors.luckyValue
+          personalFactors.luckyValue,
+          random
         );
 
         return {
@@ -364,12 +496,13 @@
           hexagramName: this.getHexagramName(upperIndex, lowerIndex),
           nature: this.getHexagramNature(upperIndex, lowerIndex),
           timeFactors: timeFactors,
-          personalFactors: personalFactors
+          personalFactors: personalFactors,
+          randomSeed: seed
         };
       }
 
-      // 计算主导五行（优化算法）
-      calculateDominantElement(upperElement, lowerElement, zodiacElement, luckyNumber) {
+      // 计算主导五行（增强算法）
+      calculateDominantElement(upperElement, lowerElement, zodiacElement, luckyNumber, random) {
         const elements = [upperElement, lowerElement, zodiacElement];
         
         // 如果有幸运数字，加入其五行
@@ -385,27 +518,24 @@
 
         // 找出出现最多的五行
         let maxCount = 0;
-        let dominantElement = '金';
+        let maxElements = [];
         
         for (const [element, count] of Object.entries(elementCount)) {
           if (count > maxCount) {
             maxCount = count;
-            dominantElement = element;
+            maxElements = [element];
+          } else if (count === maxCount) {
+            maxElements.push(element);
           }
         }
 
-        // 如果有多个相同次数的五行，考虑相生关系
-        const maxElements = Object.keys(elementCount).filter(e => elementCount[e] === maxCount);
+        // 如果有多个相同次数的五行，使用随机选择
         if (maxElements.length > 1) {
-          // 优先选择能生其他元素的五行
-          for (const element of maxElements) {
-            if (maxElements.includes(this.wuxing.sheng[element])) {
-              return element;
-            }
-          }
+          const randomIndex = Math.floor(random() * maxElements.length);
+          return maxElements[randomIndex];
         }
 
-        return dominantElement;
+        return maxElements[0] || '金';
       }
 
       // 获取卦名（简化版）
@@ -441,7 +571,8 @@
 
       // 智能选择刮刮乐
       selectOptimalLottery(hexagram, availableLotteries) {
-        const { dominantElement, nature, changingLine } = hexagram;
+        const { dominantElement, nature, changingLine, randomSeed } = hexagram;
+        const random = this.seededRandom(randomSeed);
         
         // 根据五行筛选
         const elementKeywords = this.lotteryElements[dominantElement];
@@ -469,51 +600,54 @@
           if (lowValue.length > 0) candidates = lowValue;
         }
 
-        // 根据动爻选择
-        const finalIndex = (changingLine - 1) % candidates.length;
-        return candidates[finalIndex];
+        // 使用随机选择而不是固定算法
+        const randomIndex = Math.floor(random() * candidates.length);
+        return candidates[randomIndex];
       }
 
-      // 生成幸运号码（个位数和十位数）
+      // 生成幸运号码（增强版）
       generateLuckyNumbers(hexagram, personalInfo) {
-        const { dominantElement, changingLine, upper, lower } = hexagram;
+        const { dominantElement, changingLine, upper, lower, randomSeed } = hexagram;
         const { luckyNumber } = personalInfo;
+        const random = this.seededRandom(randomSeed);
 
-        // 五行对应的幸运数字
+        // 五行对应的幸运数字（扩展版）
         const elementNumbers = {
-          '金': [6, 7, 8, 9],
-          '木': [3, 4, 8],
-          '水': [0, 1, 6],
-          '火': [2, 7, 9],
-          '土': [0, 2, 5, 8]
+          '金': [1, 6, 7, 8, 9, 16, 17, 18, 19, 26, 27, 28, 29],
+          '木': [3, 4, 8, 13, 14, 18, 23, 24, 28],
+          '水': [0, 1, 6, 10, 11, 16, 20, 21, 26, 30],
+          '火': [2, 7, 9, 12, 17, 19, 22, 27, 29],
+          '土': [0, 2, 5, 8, 10, 12, 15, 18, 20, 22, 25, 28, 30]
         };
 
         let candidates = elementNumbers[dominantElement];
 
-        // 生成个位数
+        // 生成个位数（增强随机性）
         let unitDigit;
         if (luckyNumber) {
           const userLucky = parseInt(luckyNumber.toString().slice(-1));
           if (candidates.includes(userLucky)) {
             unitDigit = userLucky;
           } else {
-            const index = (changingLine - 1) % candidates.length;
-            unitDigit = candidates[index];
+            // 使用随机选择
+            const randomIndex = Math.floor(random() * candidates.length);
+            unitDigit = candidates[randomIndex] % 10;
           }
         } else {
-          const index = (changingLine - 1) % candidates.length;
-          unitDigit = candidates[index];
+          // 完全随机选择
+          const randomIndex = Math.floor(random() * candidates.length);
+          unitDigit = candidates[randomIndex] % 10;
         }
 
-        // 生成十位数（基于上卦和下卦的组合）
+        // 生成十位数（增强随机性）
         const upperIndex = this.bagua.names.indexOf(upper.name);
         const lowerIndex = this.bagua.names.indexOf(lower.name);
-        const tensDigitBase = (upperIndex + lowerIndex + changingLine) % 4; // 0-3
+        
+        // 使用多个因子计算十位数
+        const tensBase = (upperIndex + lowerIndex + changingLine + Math.floor(random() * 10)) % 4;
+        const tensDigit = tensBase;
 
-        // 将0-3映射到0-3，确保十位数在合理范围内
-        const tensDigit = tensDigitBase;
-
-        // 组合成两位数（00-30范围内）
+        // 组合成两位数
         const twoDigitNumber = tensDigit * 10 + unitDigit;
 
         // 如果超过30，取模31
@@ -523,30 +657,28 @@
           unitDigit: unitDigit,
           tensDigit: Math.floor(finalNumber / 10),
           fullNumber: finalNumber.toString().padStart(2, '0'),
-          alternatives: this.generateAlternativeNumbers(hexagram, unitDigit)
+          alternatives: this.generateAlternativeNumbers(hexagram, unitDigit, random)
         };
       }
 
-      // 生成备选号码
-      generateAlternativeNumbers(hexagram, primaryUnit) {
+      // 生成备选号码（增强版）
+      generateAlternativeNumbers(hexagram, primaryUnit, random) {
         const { dominantElement, changingLine } = hexagram;
         const elementNumbers = {
-          '金': [6, 7, 8, 9],
-          '木': [3, 4, 8],
-          '水': [0, 1, 6],
-          '火': [2, 7, 9],
-          '土': [0, 2, 5, 8]
+          '金': [1, 6, 7, 8, 9, 16, 17, 18, 19, 26, 27, 28, 29],
+          '木': [3, 4, 8, 13, 14, 18, 23, 24, 28],
+          '水': [0, 1, 6, 10, 11, 16, 20, 21, 26, 30],
+          '火': [2, 7, 9, 12, 17, 19, 22, 27, 29],
+          '土': [0, 2, 5, 8, 10, 12, 15, 18, 20, 22, 25, 28, 30]
         };
 
         const candidates = elementNumbers[dominantElement];
         const alternatives = [];
 
-        // 生成3个备选号码
+        // 生成3个备选号码（完全随机）
         for (let i = 1; i <= 3; i++) {
-          const altIndex = (changingLine + i - 1) % candidates.length;
-          const altUnit = candidates[altIndex];
-          const altTens = (changingLine + i) % 4;
-          const altNumber = altTens * 10 + altUnit;
+          const randomIndex = Math.floor(random() * candidates.length);
+          const altNumber = candidates[randomIndex];
           const finalAlt = altNumber > 30 ? altNumber % 31 : altNumber;
           alternatives.push(finalAlt.toString().padStart(2, '0'));
         }
@@ -605,6 +737,9 @@
       const now = new Date();
       const timeString = now.toLocaleString('zh-CN');
 
+      // 格式化出生日期为中文格式
+      const formattedBirthdate = formatDateToChinese(personalInfo.birthdate);
+
       // 生成详细分析
       const analysis = generateDetailedAnalysis(hexagram, personalInfo, recommendedLottery, luckyNumbers);
 
@@ -615,7 +750,7 @@
               <i class="fa fa-user mr-2"></i>基本信息
             </h3>
             <p class="text-gray-700">
-              我叫${personalInfo.name}，${personalInfo.gender}，${personalInfo.birthdate}出生，
+              我叫${personalInfo.name}，${personalInfo.gender}，${formattedBirthdate}出生，
               生肖属${personalInfo.zodiac}，现在是${timeString}，
               在${personalInfo.location}准备购买刮刮乐。
             </p>
@@ -797,6 +932,17 @@
 
     // 显示生成结果
     function showGeneratedScript() {
+      // 先验证表单
+      if (!validateForm()) {
+        // 滚动到第一个错误字段
+        const firstError = document.querySelector('.border-red-500');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstError.focus();
+        }
+        return;
+      }
+      
       const resultContainer = document.getElementById('result-container');
       const generatedText = document.getElementById('generated-text');
       const loadingIndicator = document.getElementById('loading-indicator');
@@ -844,16 +990,146 @@
         });
     }
 
+    // 表单验证函数
+    function validateForm() {
+      const name = document.getElementById('name').value.trim();
+      const birthdate = document.getElementById('birthdate').value;
+      
+      let isValid = true;
+      
+      // 验证姓名
+      if (!name) {
+        showFieldError('name', '请输入姓名');
+        isValid = false;
+      } else {
+        hideFieldError('name');
+      }
+      
+      // 验证出生日期
+      if (!birthdate) {
+        showFieldError('birthdate', '请选择出生日期');
+        isValid = false;
+      } else {
+        hideFieldError('birthdate');
+      }
+      
+      return isValid;
+    }
+    
+    // 显示字段错误
+    function showFieldError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const errorDiv = document.getElementById(fieldId + '-error');
+      
+      field.classList.add('border-red-500');
+      field.classList.remove('border-gray-200');
+      
+      if (errorDiv) {
+        errorDiv.textContent = message;
+        errorDiv.classList.remove('hidden');
+      }
+    }
+    
+    // 隐藏字段错误
+    function hideFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const errorDiv = document.getElementById(fieldId + '-error');
+      
+      field.classList.remove('border-red-500');
+      field.classList.add('border-gray-200');
+      
+      if (errorDiv) {
+        errorDiv.classList.add('hidden');
+      }
+    }
+
+    // 本地存储功能
+    function saveUserData() {
+      const userData = {
+        name: document.getElementById('name').value,
+        gender: document.getElementById('gender').value,
+        birthdate: document.getElementById('birthdate').value,
+        location: document.getElementById('location').value,
+        luckyNumber: document.getElementById('lucky_number').value,
+        zodiac: document.getElementById('shengxiao').value,
+        lotteryType: currentLotteryType
+      };
+      
+      localStorage.setItem('lotteryUserData', JSON.stringify(userData));
+    }
+    
+    function loadUserData() {
+      const savedData = localStorage.getItem('lotteryUserData');
+      if (savedData) {
+        try {
+          const userData = JSON.parse(savedData);
+          
+          document.getElementById('name').value = userData.name || '';
+          document.getElementById('gender').value = userData.gender || '男';
+          document.getElementById('birthdate').value = userData.birthdate || '2002-10-05';
+          document.getElementById('location').value = userData.location || '无锡体彩店';
+          document.getElementById('lucky_number').value = userData.luckyNumber || '';
+          document.getElementById('shengxiao').value = userData.zodiac || '马';
+          
+          if (userData.lotteryType) {
+            switchLotteryType(userData.lotteryType);
+          }
+        } catch (e) {
+          console.error('加载用户数据失败:', e);
+        }
+      }
+    }
+
     // 事件绑定
     document.addEventListener('DOMContentLoaded', () => {
       // 初始化界面
       updateLotteryOptions(lotteryTypes[currentLotteryType].options);
+      
+      // 页面加载时根据出生日期自动计算生肖
+      const birthdateInput = document.getElementById('birthdate');
+      const zodiacSelect = document.getElementById('shengxiao');
+      
+      if (birthdateInput.value) {
+        const zodiac = calculateZodiac(birthdateInput.value);
+        zodiacSelect.value = zodiac;
+      }
       
       // 绑定事件
       document.getElementById('generate-btn').addEventListener('click', showGeneratedScript);
       document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
       document.getElementById('type-lottery').addEventListener('click', () => switchLotteryType('type-lottery'));
       document.getElementById('type-fucai').addEventListener('click', () => switchLotteryType('type-fucai'));
+      
+      // 实时验证姓名
+      document.getElementById('name').addEventListener('input', function() {
+        if (this.value.trim()) {
+          hideFieldError('name');
+        }
+      });
+      
+      // 出生日期变化时自动计算生肖
+      document.getElementById('birthdate').addEventListener('change', function() {
+        const birthDate = this.value;
+        if (birthDate) {
+          const zodiac = calculateZodiac(birthDate);
+          const zodiacSelect = document.getElementById('shengxiao');
+          
+          // 设置对应的生肖选项
+          zodiacSelect.value = zodiac;
+          
+          // 添加视觉反馈
+          zodiacSelect.style.backgroundColor = '#f0f9ff';
+          zodiacSelect.style.borderColor = '#3b82f6';
+          
+          setTimeout(() => {
+            zodiacSelect.style.backgroundColor = '';
+            zodiacSelect.style.borderColor = '';
+          }, 1000);
+          
+          // 清除错误状态
+          hideFieldError('birthdate');
+        }
+      });
       
       // 全选/全不选
       document.getElementById('select-all').addEventListener('click', () => {
@@ -866,6 +1142,22 @@
       
       // 自动聚焦
       document.getElementById('name').focus();
+
+      // 键盘快捷键
+      document.addEventListener('keydown', function(e) {
+        // Ctrl+Enter 或 Cmd+Enter 生成推荐
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          showGeneratedScript();
+        }
+        
+        // Ctrl+C 或 Cmd+C 复制结果
+        if ((e.ctrlKey || e.metaKey) && e.key === 'c' && 
+            document.getElementById('result-container').style.opacity === '1') {
+          e.preventDefault();
+          copyToClipboard();
+        }
+      });
     });
   </script>
 </body>
